@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/config/firebase.js
+/images
 
 buildcommands.sh
