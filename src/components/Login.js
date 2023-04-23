@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export const Login = () => {
   const [email, setEmail] = useState(''); //nice shit
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //Really???
 
   const handleSubmit = async (event) => {
     event.preventDefault();
