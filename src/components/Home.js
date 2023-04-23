@@ -7,6 +7,9 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 
+import moment from "moment";
+import "moment/locale/de"; 
+
 
 
 export const Home = () => {
@@ -15,6 +18,7 @@ export const Home = () => {
   const handleLogout = async () => {
     await signOut(auth)
       .then(() => {
+        localStorage.removeItem("uid");
         navigate('/');
       })
       .catch((error) => {
@@ -52,55 +56,99 @@ export const Home = () => {
 
   const [imageUrls, setImageUrls] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortedImageUrls, setSortedImageUrls] = useState([]);
+
+
   useEffect(() => {
-    const fetchImages = () => {
-        const imagesRef = collection(db, "images");
-        const q = query(imagesRef);
-      
-        getDocs(q)
-          .then((querySnapshot) => {
-            const urls = [];
-            querySnapshot.forEach((doc) => {
-              const { title, name, date, user } = doc.data();
-      
-              const imageRef = ref(storage, `images/${name}`);
-              getDownloadURL(imageRef)
-                .then((url) => {
-                  urls.push({ title, url , date, user});
-                  setImageUrls(urls);
-                })
-                .catch((error) => {
-                  console.log("Error getting download URL: ", error);
-                });
+    const imagesRef = collection(db, "images");
+    const q = query(imagesRef);
+  
+    getDocs(q)
+      .then((querySnapshot) => {
+        const urls = [];
+        querySnapshot.forEach((doc) => {
+          const { title, name, date, user } = doc.data();
+  
+          const imageRef = ref(storage, `images/${name}`);
+          getDownloadURL(imageRef)
+            .then((url) => {
+              urls.push({ title, url, date, user });
+            })
+            .catch((error) => {
+              console.log("Error getting download URL: ", error);
             });
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-      };
-      
-   
+        });
+        Promise.all(querySnapshot.docs.map((doc) => {
+          const { name } = doc.data();
+          const imageRef = ref(storage, `images/${name}`);
+          return getDownloadURL(imageRef);
+        }))
+        .then((urls) => {
+          const sortedUrls = urls.map((url, index) => {
+            const { title, date, user } = querySnapshot.docs[index].data();
+            return { title, url, date, user };
+          }).sort((a, b) => b.date - a.date);
+          setSortedImageUrls(sortedUrls);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }, []);
+  
+  });
+  
+  
 
-    
 
-    fetchImages();
-  }, []);
+
 
   
-  return (
-        
-        <div>
-          <h1>Willkommen {auth.currentUser.displayName}</h1>
-          <p><a href="/upload">Upload</a></p>
-          <button onClick={handleLogout}>Abmelden</button>
+  // Aktuelles Datum als Unix-Timestamp
 
-          {imageUrls.map((image) => (
-            <div key={image.url}>
-              <h2>{image.title}</h2>
-              <p>von {image.user} am {image.date}</p>
-              <img src={image.url} alt={image.title} width="400" />
-            </div>
-          ))}
+  
+  const updatedImages = sortedImageUrls.map((image) => {
+    // Berechnen Sie den Unterschied in Sekunden zwischen dem aktuellen Datum und dem Datum des Bildes
+    
+    // Verwenden Sie moment.js, um das Datum in ein relativen Format umzuwandeln
+    const time = moment.unix(image.date).fromNow();
+    // Geben Sie ein neues Bild-Objekt zurück, das das ursprüngliche Objekt mit dem aktualisierten Datum enthält
+    return {
+      ...image,
+      date: time,
+    };
+  });
+
+
+
+return (
+  <div>
+    <div  class="banner">
+      <h1>Willkommen {username}</h1>
+      
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="/upload">Post</a></li>
+        <li><button id="buttn" onClick={handleLogout}>Abmelden</button></li>
+      </ul>
+    </div>
+
+    {updatedImages.map((image) => {
+      return (
+      <div key={image.title} class="post">
+        <div class="desc">
+        <h2>{image.title}</h2>
+        <p>{image.user}  {image.date}</p>
         </div>
-      );
+        <div class="img"><img src={image.url} alt={image.title}  /></div>
+        
+        </div>
+      )
+  })}
+  </div>
+);
+
 };
+
+

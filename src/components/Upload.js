@@ -41,8 +41,9 @@ export const Upload = () => {
       addDoc(collection(db,"images"), {
         name: path,
         title: title,
-        date: new Date().toISOString(),
+        date: Math.floor(Date.now() / 1000),
         user: auth.currentUser.displayName,
+        email: auth.currentUser.email,
       })
         .then(() => {
           console.log('Metadata added to Firestore');

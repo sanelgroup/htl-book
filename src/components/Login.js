@@ -1,19 +1,20 @@
 import '../design/Login.css';
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-  const [email, setEmail] = useState(''); //HA! REMOVED
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); //Really???
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        localStorage.setItem('user', JSON.stringify(userCredential.user));
+        const uid = userCredential.user.uid;
+        localStorage.setItem("uid", uid);
         navigate('/home');
       })
       .catch(() => {
@@ -44,7 +45,8 @@ export const Login = () => {
               <button type="submit" class="button">Login</button>
             </div>
             
-          </form>        
+          </form> 
+          <p><a href="/register">Registrieren</a></p>       
         </div>  
       </div>    
     </div>
