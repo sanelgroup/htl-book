@@ -5,7 +5,7 @@ import { auth } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); //nice shit
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
