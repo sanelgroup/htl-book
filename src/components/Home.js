@@ -121,7 +121,7 @@ export const Home = () => {
   });
 
 
-
+//HTML
 return (
   <div>
     <div  class="banner">
