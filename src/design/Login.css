@@ -145,3 +145,9 @@ li a {
   padding: 8px;
   background-color: #dddddd;
 }
+
+.drag {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}

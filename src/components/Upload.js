@@ -6,9 +6,12 @@ import { addDoc, collection } from 'firebase/firestore';
 
 export const Upload = () => {
 
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  const [loaded, setLoaded] = useState(false);
+
+  const loggedin = () => {
+    document.title = "HTLBook"
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
@@ -17,21 +20,20 @@ export const Upload = () => {
       }
     });
 
-
-
     return () => unsubscribe();
-  }, []);
+  };
 
   const [imageUpload, setImageUpload] = useState(null);
   const [title, setTitle] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
+
+
 
   const handleUpload = async () => {
     if (imageUpload == null) return;
 
     const imageRef = ref(storage, `images/${uuidv4()}`);
     
-
 
     uploadBytesResumable(imageRef, imageUpload)
       .then((snapshot) => {
@@ -59,11 +61,23 @@ export const Upload = () => {
     });
   };
 
+
+  if (!loaded) {
+    loggedin();
+  }
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   return (
     <div className="App">
-      <input type="file" onChange={(event) => {setImageUpload(event.target.files[0]);}}/>
+      <input type="file" onChange={(event) => setImageUpload(event.target.files[0])} />
       <input type="text" placeholder="Title" value={title} onChange={(event) => setTitle(event.target.value)} />
       <button onClick={handleUpload}> Upload Image</button>
+      {imageUpload && (
+        <img src={URL.createObjectURL(imageUpload)} alt="Selected image" />
+      )}
       <p><a href="/home">Home</a></p>
     </div>
   );

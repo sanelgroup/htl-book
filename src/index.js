@@ -8,6 +8,7 @@ import { Home } from './components/Home';
 import { auth } from "./config/firebase";
 import { Upload } from './components/Upload';
 import { ImageGallery } from './components/Gallery';
+import { Drag } from './components/drag';
 
 function App() {
   const user = auth.currentUser;
@@ -19,7 +20,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/gallery" element={<ImageGallery />} />
-      
+      <Route path="/drag" element={<Drag />} />
 
     </Routes>
   );

@@ -15,6 +15,10 @@ import "moment/locale/de";
 export const Home = () => {
   const navigate = useNavigate();
 
+
+  const [loaded, setLoaded] = useState(false);
+
+
   const handleLogout = async () => {
     await signOut(auth)
       .then(() => {
@@ -29,7 +33,7 @@ export const Home = () => {
 
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  const loggedin = () => {
     document.title = "HTLBook"
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -39,10 +43,9 @@ export const Home = () => {
       }
     });
 
-
-
     return () => unsubscribe();
-  }, []);
+  };
+
 
  
 
@@ -60,7 +63,7 @@ export const Home = () => {
   const [sortedImageUrls, setSortedImageUrls] = useState([]);
 
 
-  useEffect(() => {
+  const post = () => {
     const imagesRef = collection(db, "images");
     const q = query(imagesRef);
   
@@ -96,11 +99,21 @@ export const Home = () => {
           console.log("Error getting documents: ", error);
         });
     }, []);
+    console.log('load')
   
-  });
+  };
   
   
 
+
+  if (!loaded) {
+    post();
+    loggedin();
+  }
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
 
 
@@ -114,14 +127,18 @@ export const Home = () => {
     // Verwenden Sie moment.js, um das Datum in ein relativen Format umzuwandeln
     const time = moment.unix(image.date).fromNow();
     // Geben Sie ein neues Bild-Objekt zurück, das das ursprüngliche Objekt mit dem aktualisierten Datum enthält
+
+    const date = new Date(image.date * 1000);
+    const formattedDate = date.toLocaleString();
     return {
       ...image,
-      date: time,
+      date: formattedDate,
+      dates: time,
     };
   });
 
 
-//HTML
+
 return (
   <div>
     <div  class="banner">
@@ -129,7 +146,7 @@ return (
       
       <ul>
         <li><a href="#home">Home</a></li>
-        <li><a href="/upload">Post</a></li>
+        <li><a href="/drag">Post</a></li>
         <li><button id="buttn" onClick={handleLogout}>Abmelden</button></li>
       </ul>
     </div>
@@ -139,7 +156,7 @@ return (
       <div key={image.title} class="post">
         <div class="desc">
         <h2>{image.title}</h2>
-        <p>{image.user}  {image.date}</p>
+        <p title={image.date}>{image.user}  {image.dates}</p>
         </div>
         <div class="img"><img src={image.url} alt={image.title}  /></div>
         
