@@ -1,32 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../config/firebase";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [formFilled, setFormFilled] = useState(false); // State-Variable für den Formularstatus
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [formFilled, setFormFilled] = useState(false); 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, email, password);
     updateProfile(auth.currentUser, {
-      displayName: displayName
+      displayName: displayName,
     })
       .then((userCredential) => {
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
       });
-
   };
 
   useEffect(() => {
-    if (email !== '' && password !== '' && displayName !== '') {
+    if (email !== "" && password !== "" && displayName !== "") {
       setFormFilled(true);
     } else {
       setFormFilled(false);
@@ -35,20 +34,36 @@ export const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-       <label>
+      <label>
         Username:
-        <input type="text" value={displayName} onChange={(event) => setDisplayName(event.target.value)} />
+        <input
+          type="text"
+          value={displayName}
+          onChange={(event) => setDisplayName(event.target.value)}
+        />
       </label>
       <label>
         Email:
-        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+        <input
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
       </label>
       <label>
         Password:
-        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+        <input
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
       </label>
-      <button type="submit" disabled={!formFilled}>Register</button>
-      <p>Schon Registriert? <a href="/">Login</a></p>
+      <button type="submit" disabled={!formFilled}>
+        Register
+      </button>
+      <p>
+        Schon Registriert? <a href="/">Login</a>
+      </p>
     </form>
   );
 };
