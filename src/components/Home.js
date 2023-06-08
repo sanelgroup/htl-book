@@ -11,6 +11,8 @@ import { db } from "../config/firebase";
 import moment from "moment";
 import "moment/locale/de";
 
+import Footer from "./Footer";
+
 export const Home = () => {
   let username = "";
   const navigate = useNavigate();
@@ -48,45 +50,41 @@ export const Home = () => {
     console.log(error);
   }
 
-  const post = () => {
+  const post = async () => {
     const imagesRef = collection(db, "images");
     const q = query(imagesRef);
 
-    getDocs(q).then((querySnapshot) => {
+    try {
+      const querySnapshot = await getDocs(q);
       const urls = [];
-      querySnapshot.forEach((doc) => {
+      for (const doc of querySnapshot.docs) {
         const { title, name, date, user } = doc.data();
-
         const imageRef = ref(storage, `images/${name}`);
-        getDownloadURL(imageRef)
-          .then((url) => {
-            urls.push({ title, url, date, user });
-          })
-          .catch((error) => {
-            console.log("Error getting download URL: ", error);
-          });
-      });
-      Promise.all(
+        try {
+          const url = await getDownloadURL(imageRef);
+          urls.push({ title, url, date, user });
+        } catch (error) {
+          console.log("Error getting download URL: ", error);
+        }
+      }
+      const downloadUrls = await Promise.all(
         querySnapshot.docs.map((doc) => {
           const { name } = doc.data();
           const imageRef = ref(storage, `images/${name}`);
           return getDownloadURL(imageRef);
         })
-      )
-        .then((urls) => {
-          const sortedUrls = urls
-            .map((url, index) => {
-              const { title, date, user } = querySnapshot.docs[index].data();
-              return { title, url, date, user };
-            })
-            .sort((a, b) => b.date - a.date);
-          setSortedImageUrls(sortedUrls);
-          setIsLoading(false);
+      );
+      const sortedUrls = downloadUrls
+        .map((url, index) => {
+          const { title, date, user } = querySnapshot.docs[index].data();
+          return { title, url, date, user };
         })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
-    }, []);
+        .sort((a, b) => b.date - a.date);
+      setSortedImageUrls(sortedUrls);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error getting documents: ", error);
+    }
   };
 
   if (!loaded) {
@@ -144,13 +142,18 @@ export const Home = () => {
         <h1 class="mario" title="https://github.com/mario-hess">
           Willkommen {username}
         </h1>
-        <img src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265" class="logo"/>
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
+          class="logo"
+        />
       </div>
 
       <div id="mySidenav" style={{ width: sidenavWidth }}>
         <a href="/home">Home</a>
         <a href="/post">Neuer Post</a>
-        <a href="#" onClick={handleLogout}>Abmelden</a>
+        <a href="#" onClick={handleLogout}>
+          Abmelden
+        </a>
         <div title="https://github.com/mario-hess">
           <a href="/mario">
             <span class="credit-p">Cheeseburger by mario-hess</span>
@@ -175,7 +178,7 @@ export const Home = () => {
           );
         })}
       </div>
-      <p class="footer">2023 by SanelGroup Ltd.</p>
+      <Footer />
     </div>
   );
 };

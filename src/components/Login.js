@@ -1,15 +1,35 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import Footer from "./Footer";
 
-export const Login = () => {
+export const SignUp = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  const handleInfoItemClick = () => {
+    setIsLogin(!isLogin);
+  };
+
+  const containerClasses = `container ${isLogin ? "log-in" : ""} ${
+    isActive ? "active" : ""
+  }`;
+
+  const handleLoginButtonClick = () => {
+    setIsLogin(false);
+    setIsActive(false);
+  };
+
+  //Login
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -22,58 +42,117 @@ export const Login = () => {
       });
   };
 
-  return (
-    <div class="container">
-      <div class="row">
-        <div class="Absolute-Center is-Responsive">
-          <div id="logo-container"></div>
-          <div class="col-sm-12">
-            <img
-              width="200px"
-              src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenannt.PNG?alt=media&token=bd4ae4f1-4fe2-41c0-95de-78be151ac212"
-              alt="My Image"
-            />
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit} id="loginForm">
-              <div class="form-group input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-user"></i>
-                </span>
-                <input
-                  class="form-control"
-                  type="email"
-                  name="username"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </div>
-              <div class="form-group input-group">
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-lock"></i>
-                </span>
-                <input
-                  class="form-control"
-                  type="password"
-                  name="password"
-                  placeholder="Passwort"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-              </div>
+  //Signup
 
-              <div class="form-group">
-                <button type="submit" class="button">
-                  Login
-                </button>
+  const [displayName, setDisplayName] = useState("");
+  const [formFilled, setFormFilled] = useState(false);
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    await createUserWithEmailAndPassword(auth, email, password);
+    updateProfile(auth.currentUser, {
+      displayName: displayName,
+    })
+      .then((userCredential) => {
+        handleLoginButtonClick();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (email !== "" && password !== "" && displayName !== "") {
+      setFormFilled(true);
+    } else {
+      setFormFilled(false);
+    }
+  }, [email, password, displayName]);
+
+  return (
+    <div>
+      <div className={containerClasses}>
+        <div className="box"></div>
+        <div className="container-forms">
+          <div className="container-info">
+            <div className="info-item">
+              <div className="table">
+                <div className="table-cell">
+                  <p>Schon registriert?</p>
+                  <button class="btn" onClick={handleLoginButtonClick}>
+                    Login
+                  </button>
+                </div>
               </div>
-            </form>
-            <p>
-              <a href="/register">Registrieren</a>
-            </p>
+            </div>
+            <div className="info-item">
+              <div className="table">
+                <div className="table-cell">
+                  <p>Noch kein Account?</p>
+                  <button class="btn" onClick={handleInfoItemClick}>
+                    Registrieren
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container-form">
+            <div className="form-item log-in">
+              <div className="table">
+                <div className="table-cell">
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="username"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                  <input
+                    class="form-control"
+                    type="password"
+                    name="password"
+                    placeholder="Passwort"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <button class="button" onClick={handleLogin}>
+                    Login
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="form-item sign-up">
+              <div className="table">
+                <div className="table-cell">
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    value={displayName}
+                    onChange={(event) => setDisplayName(event.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Passswort"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <button class="button" onClick={handleSignUp}>
+                    Registrieren
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

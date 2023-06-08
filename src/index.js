@@ -6,8 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Login } from "./components/Login";
-import { Register } from "./components/Register";
+import { SignUp } from "./components/Login";
 import { Home } from "./components/Home";
 import { auth } from "./config/firebase";
 import { Posting } from "./components/Posting";
@@ -20,8 +19,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/" element={user ? <Navigate to="/home" /> : <SignUp />} />
       <Route path="/home" element={<Home />} />
       <Route path="/post" element={<Posting />} />
       <Route path="/mario" element={<Menu />} />
