@@ -1,0 +1,102 @@
+main {
+  margin-top: 100px;
+  margin-bottom: 7vh;
+}
+
+ul,
+li {
+  text-align: left;
+  list-style: none;
+}
+
+.p_chat {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+.sender {
+  color: rgb(155, 155, 155);
+  font-size: smaller;
+  padding: 0;
+  margin-bottom: 80px;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+}
+
+.sent {
+  flex-direction: row-reverse;
+}
+
+.sent p {
+  color: white;
+  background: #0b93f6;
+  align-self: flex-end;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.gone h2 {
+  display: none;
+}
+
+.received p {
+  background: #e5e5ea;
+  color: black;
+  margin-top: 12px;
+  margin-left: -50px;
+  text-align: left;
+}
+
+.chat_form {
+  height: 5vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  border: #edeff1 1px solid;
+  width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.chat_input {
+  line-height: 1.5;
+  width: 100%;
+  font-size: 1.3rem;
+  background: rgb(228, 228, 228);
+  color: black;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+
+.send_button {
+  height: 40px;
+  width: 40px;
+  background-color: #0b93f6; /* Green */
+  border: 1px solid #0b93f6;
+  border-radius: 100px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.25rem;
+  margin-right: 30px;
+}
+
+.send_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

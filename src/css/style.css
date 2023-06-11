@@ -42,12 +42,47 @@ input {
 
 /* Change the white to any color */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+.file-upload {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  background-color: #222222;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+.file-upload:hover {
+  background-color: #a8a8a8;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.file-upload label {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-left: 10px;
+}
 
 .button {
   margin-left: 30%;
@@ -92,21 +127,20 @@ input:-webkit-autofill:active{
 }
 
 .p-img {
-  min-height: 600px;
   max-width: 600px;
-  max-height: 600px;
+  max-height: 598px;
   position: absolute;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  border: rgb(206, 206, 206) 1px solid;
+  
   border-radius: 3px;
 }
 
 .img {
   text-align: center;
-  background-color: white;
+  background-color: rgb(241, 241, 241);
   height: 600px;
   width: 600px;
   margin: 5px;
@@ -115,7 +149,7 @@ input:-webkit-autofill:active{
   left: 49.5%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  border: white 1px solid;
+  border: rgb(206, 206, 206) 1px solid;
   border-radius: 3px;
 }
 
@@ -160,31 +194,35 @@ li a {
 }
 
 .area {
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 600px;
   padding: 5px;
   height: 700px;
   position: relative;
   left: 50%;
   -ms-transform: translate(-50%);
   transform: translate(-50%);
-  border: #222222 1px solid;
+  border: rgb(206, 206, 206) 1px solid;
+  background-color: white;
 }
 
 .drop-area {
+  text-align: center;
   border: 2px dashed transparent;
   padding: 20px;
 }
 
 .upload {
-  width: 500px;
+  width: 590px;
   height: 500px;
   text-align: center;
-  background-color: aqua;
-  border: white 1px solid;
+  background-color: rgb(231, 231, 231);
+  border: rgb(201, 201, 201) 1px solid;
   border-radius: 10px;
   margin-bottom: 10px;
+  margin-left: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -260,6 +298,17 @@ li a {
   position: absolute;
   top: 20px;
   left: 100%;
+  transform: translate(-100%);
+  color: #222222;
+  margin-bottom: 112px;
+}
+
+
+.logo2 {
+  width: 200px;
+  position: absolute;
+  top: 20px;
+  left: 85%;
   transform: translate(-100%);
   color: #222222;
   margin-bottom: 112px;

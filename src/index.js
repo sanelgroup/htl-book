@@ -11,6 +11,7 @@ import { Home } from "./components/Home";
 import { auth } from "./config/firebase";
 import { Posting } from "./components/Posting";
 import { Menu } from "./components/Mario";
+import { Chat } from "./components/Chat";
 
 import "./css/style.css";
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/post" element={<Posting />} />
       <Route path="/mario" element={<Menu />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 }

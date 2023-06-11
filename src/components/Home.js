@@ -149,8 +149,8 @@ export const Home = () => {
       </div>
 
       <div id="mySidenav" style={{ width: sidenavWidth }}>
-        <a href="/home">Home</a>
         <a href="/post">Neuer Post</a>
+        <a href="/chat">Chat</a>
         <a href="#" onClick={handleLogout}>
           Abmelden
         </a>

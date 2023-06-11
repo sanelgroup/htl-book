@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
+import Cheeseburger from "./Cheeseburger";
+import Footer from "./Footer";
 
 export const Posting = () => {
   const [dragging, setDragging] = useState(false);
@@ -87,26 +89,56 @@ export const Posting = () => {
     }
   }, [title]);
 
+  const [toggled, setToggled] = useState(false);
+
+  const toggle = (event) => {
+    event.preventDefault();
+    setToggled(!toggled);
+    if (!toggled) {
+      openNav();
+    } else {
+      closeNav();
+    }
+  };
+
+  const [sidenavWidth, setSidenavWidth] = useState(0);
+
+  function openNav() {
+    setSidenavWidth(250);
+  }
+
+  function closeNav() {
+    setSidenavWidth(0);
+  }
+
   return (
     <div>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
-        integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY="
-        crossorigin="anonymous"
-      ></link>
-      <div class="banner">
-        <h1>Upload</h1>
-
-        <ul>
-          <li>
-            <a href="/home">Home</a>
-          </li>
-          <li>
-            <a href="/post">Post</a>
-          </li>
-        </ul>
+      <div id="left">
+        <Cheeseburger
+          color={"#222222"}
+          width={60}
+          height={60}
+          isToggled={toggled}
+          onClick={toggle}
+        />
+        <h1 class="mario" title="https://github.com/mario-hess">
+          Upload
+        </h1>
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
+          class="logo"
+        />
       </div>
+
+      <div id="mySidenav" style={{ width: sidenavWidth }}>
+        <a href="/home">Home</a>
+        <div title="https://github.com/mario-hess">
+          <a href="/mario">
+            <span class="credit-p">Cheeseburger by mario-hess</span>
+          </a>
+        </div>
+      </div>
+
       <div className="area">
         <input
           type="text"
@@ -114,10 +146,15 @@ export const Posting = () => {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <input
-          type="file"
-          onChange={(event) => handleSelect(event.target.files[0])}
-        />
+        <div class="file-upload">
+          <input
+            type="file"
+            name="file-upload"
+            id="file-upload"
+            onChange={(event) => handleSelect(event.target.files[0])}
+          />
+          <label for="file-upload">Datei auswählen</label>
+        </div>
 
         <div
           className="drop-area"
@@ -130,16 +167,16 @@ export const Posting = () => {
             padding: "20px",
           }}
         >
-          <p>Drag and drop file(s) here</p>
+          <p>Drag and drop pictures here</p>
         </div>
         <div class="upload">
           {image && <img class="u-img" src={image} alt="Dropped image" />}
         </div>
         <button onClick={handleUpload} disabled={!formFilled} class="button">
-          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
           Upload Image
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

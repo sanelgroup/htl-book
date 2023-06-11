@@ -99,6 +99,10 @@ export const SignUp = () => {
           <div className="container-form">
             <div className="form-item log-in">
               <div className="table">
+              <img
+          src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
+          class="logo2"
+        />
                 <div className="table-cell">
                   <input
                     class="form-control"
