@@ -14,6 +14,8 @@ import Cheeseburger from "./Cheeseburger";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
+import { Navigation } from "./Navigation";
+
 import "../css/chat.css";
 
 export const Chat = () => {
@@ -85,36 +87,7 @@ export const Chat = () => {
 
   return (
     <>
-      <div id="left">
-        <Cheeseburger
-          color={"#222222"}
-          width={60}
-          height={60}
-          isToggled={toggled}
-          onClick={toggle}
-        />
-        <h1 class="mario" title="https://github.com/mario-hess">
-          Chat
-        </h1>
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
-          class="logo"
-        />
-      </div>
-
-      <div id="mySidenav" style={{ width: sidenavWidth }}>
-        <a href="/home">Home</a>
-        <a href="/post">Neuer Post</a>
-        <a href="/chat">Chat</a>
-        <a href="#" onClick={handleLogout}>
-          Abmelden
-        </a>
-        <div title="https://github.com/mario-hess">
-          <a href="/mario">
-            <span class="credit-p">Cheeseburger by mario-hess</span>
-          </a>
-        </div>
-      </div>
+      <Navigation title="Chat" />
       <main>
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}

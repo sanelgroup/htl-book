@@ -10,10 +10,12 @@ import { SignUp } from "./components/Login";
 import { Home } from "./components/Home";
 import { auth } from "./config/firebase";
 import { Posting } from "./components/Posting";
-import { Menu } from "./components/Mario";
 import { Chat } from "./components/Chat";
+import { Credits } from "./components/Credits";
 
 import "./css/style.css";
+import "./css/navigation.css";
+import "./css/credits.css";
 
 function App() {
   const user = auth.currentUser;
@@ -23,8 +25,8 @@ function App() {
       <Route path="/" element={user ? <Navigate to="/home" /> : <SignUp />} />
       <Route path="/home" element={<Home />} />
       <Route path="/post" element={<Posting />} />
-      <Route path="/mario" element={<Menu />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/credits" element={<Credits />} />
     </Routes>
   );
 }

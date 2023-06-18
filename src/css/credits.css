@@ -1,0 +1,10 @@
+.credits {
+  margin-top: 200px;
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.credits a {
+  margin-top: 10px;
+}
