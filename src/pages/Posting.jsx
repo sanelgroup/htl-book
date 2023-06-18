@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../config/firebase";
 import { addDoc, collection } from "firebase/firestore";
-import { Navigation } from "./Navigation";
-import Footer from "./Footer";
+import { Navigation } from "../components/Navigation";
+import Footer from "../components/Footer";
 
 export const Posting = () => {
   const [dragging, setDragging] = useState(false);

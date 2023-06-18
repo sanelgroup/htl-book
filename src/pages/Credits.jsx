@@ -1,5 +1,4 @@
-import React from "react";
-import { Navigation } from "./Navigation";
+import { Navigation } from "../components/Navigation";
 
 export const Credits = () => {
   return (

@@ -7,22 +7,15 @@ import {
   query,
 } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../config/firebase";
 
-import Cheeseburger from "./Cheeseburger";
-import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
-
-import { Navigation } from "./Navigation";
+import { Navigation } from "../components/Navigation";
 
 import "../css/chat.css";
 
 export const Chat = () => {
   const ref = useRef(null);
-  const navigate = useNavigate();
   const [formValue, setFormValue] = useState("");
-  const [user] = useAuthState(auth);
   const messagesRef = collection(db, "messages");
   const q = query(messagesRef, orderBy("createdAt"));
 
@@ -52,39 +45,6 @@ export const Chat = () => {
     });
   };
 
-  const handleLogout = async () => {
-    await signOut(auth)
-      .then(() => {
-        localStorage.removeItem("uid");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
-  };
-
-  const [toggled, setToggled] = useState(false);
-
-  const toggle = (event) => {
-    event.preventDefault();
-    setToggled(!toggled);
-    if (!toggled) {
-      openNav();
-    } else {
-      closeNav();
-    }
-  };
-
-  const [sidenavWidth, setSidenavWidth] = useState(0);
-
-  function openNav() {
-    setSidenavWidth(250);
-  }
-
-  function closeNav() {
-    setSidenavWidth(0);
-  }
-
   return (
     <>
       <Navigation title="Chat" />
@@ -101,7 +61,7 @@ export const Chat = () => {
           className={"chat_input"}
         />
         <button type="submit" disabled={!formValue} className={"send_button"}>
-          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          <i className="fa fa-paper-plane" aria-hidden="true"></i>
         </button>
       </form>
     </>

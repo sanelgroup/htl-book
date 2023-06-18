@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 export const SignUp = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -79,7 +79,7 @@ export const SignUp = () => {
               <div className="table">
                 <div className="table-cell">
                   <p>Schon registriert?</p>
-                  <button class="btn" onClick={handleLoginButtonClick}>
+                  <button className="btn" onClick={handleLoginButtonClick}>
                     Login
                   </button>
                 </div>
@@ -89,7 +89,7 @@ export const SignUp = () => {
               <div className="table">
                 <div className="table-cell">
                   <p>Noch kein Account?</p>
-                  <button class="btn" onClick={handleInfoItemClick}>
+                  <button className="btn" onClick={handleInfoItemClick}>
                     Registrieren
                   </button>
                 </div>
@@ -101,11 +101,11 @@ export const SignUp = () => {
               <div className="table">
               <img
           src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
-          class="logo2"
+          className="logo2"
         />
                 <div className="table-cell">
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="email"
                     name="username"
                     placeholder="Email"
@@ -113,14 +113,14 @@ export const SignUp = () => {
                     onChange={(event) => setEmail(event.target.value)}
                   />
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="password"
                     name="password"
                     placeholder="Passwort"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                   />
-                  <button class="button" onClick={handleLogin}>
+                  <button className="button" onClick={handleLogin}>
                     Login
                   </button>
                 </div>
@@ -147,7 +147,7 @@ export const SignUp = () => {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                   />
-                  <button class="button" onClick={handleSignUp}>
+                  <button className="button" onClick={handleSignUp}>
                     Registrieren
                   </button>
                 </div>

@@ -1,10 +1,7 @@
 import { auth, storage } from "../config/firebase";
-import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
-import { Navigation } from "./Navigation";
-import Cheeseburger from "./Cheeseburger";
+import { Navigation } from "../components/Navigation";
 
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
@@ -12,26 +9,13 @@ import { db } from "../config/firebase";
 import moment from "moment";
 import "moment/locale/de";
 
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 export const Home = () => {
   let username = "";
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [sortedImageUrls, setSortedImageUrls] = useState([]);
-
-  const handleLogout = async () => {
-    await signOut(auth)
-      .then(() => {
-        localStorage.removeItem("uid");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
-  };
 
   const loggedin = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -108,44 +92,22 @@ export const Home = () => {
     };
   });
 
-  const [toggled, setToggled] = useState(false);
-
-  const toggle = (event) => {
-    event.preventDefault();
-    setToggled(!toggled);
-    if (!toggled) {
-      openNav();
-    } else {
-      closeNav();
-    }
-  };
-
-  const [sidenavWidth, setSidenavWidth] = useState(0);
-
-  function openNav() {
-    setSidenavWidth(250);
-  }
-
-  function closeNav() {
-    setSidenavWidth(0);
-  }
-
   return (
     <div>
       <Navigation title="Home" />
 
-      <div class="post-wrap">
+      <div className="post-wrap">
         {updatedImages.map((image) => {
           return (
-            <div key={image.url} class="post">
-              <div class="desc">
+            <div key={image.url} className="post">
+              <div className="desc">
                 <h2>{image.title}</h2>
                 <p title={image.date}>
                   {image.user} {image.dates}
                 </p>
               </div>
-              <div class="img">
-                <img class="p-img" src={image.url} alt={image.title} />
+              <div className="img">
+                <img className="p-img" src={image.url} alt={image.title} />
               </div>
             </div>
           );
