@@ -12,6 +12,7 @@ import { auth, db } from "../config/firebase";
 import { Navigation } from "../components/Navigation";
 
 import "../css/chat.css";
+import { FaRegPaperPlane } from "react-icons/fa";
 
 export const Chat = () => {
   const ref = useRef(null);
@@ -55,14 +56,16 @@ export const Chat = () => {
       <div ref={ref}></div>
 
       <form onSubmit={sendMessage} className={"chat_form"}>
-        <input
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-          className={"chat_input"}
-        />
-        <button type="submit" disabled={!formValue} className={"send_button"}>
-          <i className="fa fa-paper-plane" aria-hidden="true"></i>
-        </button>
+        
+          <input
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+            className={"chat_input mb-1"}
+          />
+          <button type="submit" disabled={!formValue} className="pr-2">
+            <FaRegPaperPlane />
+          </button>
+        
       </form>
     </>
   );
@@ -70,17 +73,19 @@ export const Chat = () => {
 
 function ChatMessage(props) {
   const { text, uid, displayName } = props.message;
-  const messageClass = uid === auth.currentUser.uid ? " sent" : "received";
+  const messageClass = uid === auth.currentUser.uid ? "chat-end" : "chat-start";
+  const messageColor =
+    uid === auth.currentUser.uid ? "bg-blue-500" : "bg-gray-500";
 
   const uName = uid === auth.currentUser.uid ? "" : displayName;
 
-  const senderClass = uid === auth.currentUser.uid ? "gone" : "sender";
-
   return (
     <>
-      <div className={`message ${messageClass}`}>
-        <h2 className={`${senderClass}`}>{uName}</h2>
-        <p className={`p_chat `}>{text}</p>
+      <p className="pl-4 text-sm text-slate-600">{uName}</p>
+      <div className={`chat ${messageClass}`}>
+        <div className={`chat-bubble ${messageColor}`}>
+          <p>{text}</p>
+        </div>
       </div>
     </>
   );

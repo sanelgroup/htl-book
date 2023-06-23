@@ -72,7 +72,7 @@ export const Navigation = ({ title = "title" }) => {
           isToggled={toggled}
           onClick={toggle}
         />
-        <h1 className="header-title">{title}</h1>
+        <h1 className="header-title text-4xl pt-4 font-bold">{title}</h1>
         <img
           className="header-logo"
           src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"

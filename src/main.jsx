@@ -16,6 +16,7 @@ import { Credits } from "./pages/Credits";
 import "./css/style.css";
 import "./css/navigation.css";
 import "./css/credits.css";
+import "./css/login.css"
 
 function App() {
   const user = auth.currentUser;

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
@@ -74,35 +74,27 @@ export const SignUp = () => {
       <div className={containerClasses}>
         <div className="box"></div>
         <div className="container-forms">
-          <div className="container-info">
-            <div className="info-item">
-              <div className="table">
-                <div className="table-cell">
-                  <p>Schon registriert?</p>
-                  <button className="btn" onClick={handleLoginButtonClick}>
-                    Login
-                  </button>
-                </div>
-              </div>
+          <div className="flex justify-center items-center">
+            <div className="w-1/2  pt-32 pl-20">
+              <p className="text-white">Schon registriert?</p>
+              <button className="mt-5 ml-5 border-white border p-2 pl-5 pr-5 text-white" onClick={handleLoginButtonClick}>
+                Login
+              </button>
             </div>
-            <div className="info-item">
-              <div className="table">
-                <div className="table-cell">
-                  <p>Noch kein Account?</p>
-                  <button className="btn" onClick={handleInfoItemClick}>
-                    Registrieren
-                  </button>
-                </div>
-              </div>
+            <div className="w-1/2 pt-32 pl-24">
+              <p className="text-white">Noch kein Account?</p>
+              <button className="mt-5 ml-4 border-white border p-2 text-white" onClick={handleInfoItemClick}>
+                Registrieren
+              </button>
             </div>
           </div>
           <div className="container-form">
             <div className="form-item log-in">
               <div className="table">
-              <img
-          src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
-          className="logo2"
-        />
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/schoolweb-test.appspot.com/o/files%2FUnbenanntx.png?alt=media&token=ce988587-d78b-4578-8b59-ac64ba164265"
+                  className="logo2"
+                />
                 <div className="table-cell">
                   <input
                     className="form-control"

@@ -101,7 +101,7 @@ export const Home = () => {
           return (
             <div key={image.url} className="post">
               <div className="desc">
-                <h2>{image.title}</h2>
+                <h2 >{image.title}</h2>
                 <p title={image.date}>
                   {image.user} {image.dates}
                 </p>

@@ -68,6 +68,7 @@ li {
   font-size: 1.5rem;
   padding-left: 20px;
   padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .chat_input {
@@ -78,7 +79,7 @@ li {
   color: black;
   outline: none;
   border: none;
-  padding: 0 10px;
+  padding: 10px;
 }
 
 .send_button {
@@ -87,7 +88,6 @@ li {
   background-color: #0b93f6; /* Green */
   border: 1px solid #0b93f6;
   border-radius: 100px;
-  color: white;
   text-align: center;
   text-decoration: none;
   display: inline-block;
